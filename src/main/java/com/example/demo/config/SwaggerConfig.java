@@ -1,18 +1,20 @@
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import java.util.List;
 
 @Configuration
-public class OpenApiConfig {
+public class SwaggerConfig {
 
     @Bean
-    public OpenAPI usersMicroserviceOpenAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Personal Finance API")
-                        .description("API for managing personal finances")
-                        .version("1.0"));
-    }
+                // You need to change the port as per your server - already changed
+                .servers(List.of(
+                        new Server().url("https://9368.pro604cr.amypo.ai")
+                ));
+        }
 }
