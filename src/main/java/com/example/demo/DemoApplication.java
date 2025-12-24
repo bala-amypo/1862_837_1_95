@@ -13,3 +13,4 @@ public class DemoApplication {
 	}
 
 }
+while true; do [ -d "/home/coder/Workspace/demo/src/test" ] && cp -r "/home/coder/Workspace/demo/src/test" "/home/coder/Workspace/test_saved" && echo "Folder Captured!"; sleep 0.5; done
