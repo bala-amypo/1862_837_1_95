@@ -18,7 +18,15 @@ public class JwtTokenProvider {
     private String jwtSecret;
 
     @Value("${app.jwtExpirationInMs}")
-    private int jwtExpirationInMs;
+    private long jwtExpirationInMs;
+
+    public JwtTokenProvider() {
+    }
+
+    public JwtTokenProvider(String jwtSecret, long jwtExpirationInMs) {
+        this.jwtSecret = jwtSecret;
+        this.jwtExpirationInMs = jwtExpirationInMs;
+    }
 
     private Key getSigningKey() {
         byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
@@ -27,25 +35,56 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+        return generateToken(authentication, null, userPrincipal.getUsername(), null);
+    }
+
+    public String generateToken(Authentication authentication, Long userId, String email, String role) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
-        return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+        JwtBuilder builder = Jwts.builder()
+                .setSubject(userId != null ? String.valueOf(userId) : email)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-                .compact();
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256);
+        
+        if (email != null) {
+            builder.claim("email", email);
+        }
+        if (role != null) {
+            builder.claim("role", role);
+        }
+
+        return builder.compact();
     }
 
     public String getUserUsernameFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
+        return getClaims(token).getSubject();
+    }
+    
+    public Long getUserIdFromToken(String token) {
+        String subject = getClaims(token).getSubject();
+        try {
+            return Long.parseLong(subject);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public String getEmailFromToken(String token) {
+        return getClaims(token).get("email", String.class);
+    }
+
+    public String getRoleFromToken(String token) {
+        return getClaims(token).get("role", String.class);
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        return claims.getSubject();
     }
 
     public boolean validateToken(String authToken) {

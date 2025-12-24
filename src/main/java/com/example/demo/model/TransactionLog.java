@@ -84,4 +84,10 @@ public class TransactionLog {
     public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
     }
+
+    public void validate() {
+        if (transactionDate != null && transactionDate.isAfter(LocalDate.now())) {
+            throw new com.example.demo.exception.BadRequestException("Date cannot be in the future");
+        }
+    }
 }

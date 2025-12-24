@@ -25,7 +25,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<BudgetPlan> budgetPlans;
-
+    
+    public static final String ROLE_USER = "USER";
+    
     public User() {
     }
 
