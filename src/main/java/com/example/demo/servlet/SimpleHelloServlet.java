@@ -9,7 +9,13 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/simple-hello")
 public class SimpleHelloServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.getWriter().write("Hello form SimpleHelloServlet");
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        resp.getWriter().write("Hello from Simple Servlet");
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "SimpleHelloServlet";
     }
 }

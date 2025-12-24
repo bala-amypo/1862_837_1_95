@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new ConflictException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
