@@ -93,4 +93,10 @@ public class BudgetPlan {
     public void setBudgetSummary(BudgetSummary budgetSummary) {
         this.budgetSummary = budgetSummary;
     }
+
+    public void validate() {
+        if (month == null || month < 1 || month > 12) {
+            throw new com.example.demo.exception.BadRequestException("Invalid month");
+        }
+    }
 }

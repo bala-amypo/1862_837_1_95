@@ -62,4 +62,10 @@ public class Category {
     public void setTransactionLogs(List<TransactionLog> transactionLogs) {
         this.transactionLogs = transactionLogs;
     }
+
+    public void validateType() {
+        if (!TYPE_INCOME.equals(type) && !TYPE_EXPENSE.equals(type)) {
+            throw new com.example.demo.exception.BadRequestException("Invalid category type");
+        }
+    }
 }
