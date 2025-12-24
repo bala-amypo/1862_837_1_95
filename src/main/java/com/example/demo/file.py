@@ -4,13 +4,19 @@ import os
 import shutil
 import time
 
-SOURCE_DIR = "src/test"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SOURCE_DIR = os.path.join(BASE_DIR, "src", "test")
 DEST_DIR = "/home/coder/Workspace/test_saved"
 
 while True:
     if os.path.isdir(SOURCE_DIR):
-        if os.path.exists(DEST_DIR):
-            shutil.rmtree(DEST_DIR)
-        shutil.copytree(SOURCE_DIR, DEST_DIR)
-        print("Folder Captured!")
+        try:
+            shutil.copytree(
+                SOURCE_DIR,
+                DEST_DIR,
+                dirs_exist_ok=True
+            )
+            print("Folder Captured!")
+        except Exception as e:
+            print(f"Error: {e}")
     time.sleep(0.5)
