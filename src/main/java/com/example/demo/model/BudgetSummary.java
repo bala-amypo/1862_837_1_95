@@ -14,6 +14,7 @@ public class BudgetSummary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToOne
     @JoinColumn(name = "budget_plan_id")
     private BudgetPlan budgetPlan;

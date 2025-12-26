@@ -10,6 +10,7 @@ public class BudgetPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -23,6 +24,7 @@ public class BudgetPlan {
 
     private Double expenseLimit;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToOne(mappedBy = "budgetPlan")
     private BudgetSummary budgetSummary;
 

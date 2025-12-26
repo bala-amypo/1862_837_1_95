@@ -19,6 +19,7 @@ public class Category {
 
     private String type;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<TransactionLog> transactionLogs;
 
