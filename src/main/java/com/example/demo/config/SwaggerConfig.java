@@ -28,7 +28,7 @@ public class SwaggerConfig {
                                         .bearerFormat("JWT")))
                 // You need to change the port as per your server - already changed
                 .servers(List.of(
-                        new Server().url("https://9189.pro604cr.amypo.ai")
+                        new Server().url("https://9189.408procr.amypo.ai")
                 ));
     }
 }
