@@ -24,7 +24,6 @@ public class User {
     private List<TransactionLog> transactionLogs;
 
     @OneToMany(mappedBy = "user")
-    private List<BudgetPlan> budgetPlans;
 
     public static final String ROLE_USER = "USER";
 
